@@ -44,23 +44,25 @@ you can add it to a file called `.vscode/mcp.json` in your workspace. The github
 - Using pip installation
 
 ```json
-"mcpServers": {
-    "mcp-ieda": {
-        "type": "stdio",
-        "command": "python",
-        "args": [
-            "-m",
-            "mcp_ieda"
-        ],
-        "env": {
-            "iEDA": "${workspaceFolder}/scripts/design/sky130_gcd/iEDA",
-            "WORKSPACE":"${workspaceFolder}/scripts/design/sky130_gcd",
-            "MCP_SERVER_TYPE":"stdio"
+{
+    "servers": {
+        "mcp-ieda": {
+            "type": "stdio",
+            "command": "python",
+            "args": [
+                "-m",
+                "mcp_ieda"
+            ],
+            "env": {
+                "iEDA": "${workspaceFolder}/scripts/design/sky130_gcd/iEDA",
+                "WORKSPACE":"${workspaceFolder}/scripts/design/sky130_gcd",
+                "MCP_SERVER_TYPE":"stdio"
+            }
+        },
+        "mcp-ieda-sse": {
+            "type": "sse",
+            "url": "http://localhost:3002/sse"
         }
-    },
-    "mcp-ieda-sse": {
-        "type": "sse",
-        "url": "http://localhost:3002/sse"
     }
 }
 ```
@@ -69,22 +71,25 @@ you can add it to a file called `.vscode/mcp.json` in your workspace. The github
 - Using docker
 
 ```json
-"mcpServers": {
-  "mcp-ieda": {
-    "command": "docker",
-    "args": [
-        "run", 
-        "-p", 
-        "3002:3002",
-        "-v",
-        "/lib/x86_64-linux-gnu/libgomp.so.1:/lib/x86_64-linux-gnu/libgomp.so.1",
-        "-v",
-        "/lib/x86_64-linux-gnu/libunwind.so.8:/lib/x86_64-linux-gnu/libunwind.so.8",
-        "--rm",
-        "-i",
-        "mcp-ieda:1.0"
-    ]
-  }
+{
+    "servers": {
+        "mcp-ieda-docker": {
+            "command": "docker",
+            "args": [
+                "run", 
+                "-p", 
+                "3002:3002",
+                "-v",
+                "/lib/x86_64-linux-gnu/libgomp.so.1:/lib/x86_64-linux-gnu/libgomp.so.1",
+                "-v",
+                "/lib/x86_64-linux-gnu/libunwind.so.8:/lib/x86_64-linux-gnu/libunwind.so.8",
+                "--rm",
+                "-i",
+                "mcp-ieda:1.0"
+            ]
+        }
+    }
+
 }
 ```
 
