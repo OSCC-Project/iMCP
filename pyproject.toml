@@ -11,7 +11,8 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "mcp[cli]",
-    "python-dotenv"
+    "python-dotenv",
+    "pip>=23.1"
 ]
 
 [project.scripts]

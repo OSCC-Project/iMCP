@@ -14,7 +14,7 @@ The iMCP is a mcp server for iEDA.You can use it to communicate with iEDA Tools 
 Docker build:
 
 ```bash
-cd src/interface/mcp-iEDA
+cd iMCP
 docker build -t mcp-ieda:1.0 .
 ```
 you can modify the Dockerfile to suit your needs, such as change MCP_SERVER_TYPE to "stdio" or "sse". If you want to use "sse" mode, you need config mcp server use mcp-ieda-sse method below.
@@ -23,12 +23,17 @@ you can modify the Dockerfile to suit your needs, such as change MCP_SERVER_TYPE
 
 ### Using PIP
 ```
+cd iMCP/
+uv venv
+source .venv/bin/activate
+uv sync
 pip install mcp-iEDA
 ```
 
 After installation, you can run it as a script using:
 
 ```
+export iEDA="path/to/ieda"
 python -m mcp_ieda
 ```
 
