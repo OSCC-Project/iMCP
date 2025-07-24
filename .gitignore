@@ -1,0 +1,5 @@
+build/
+.venv/
+__pycache__
+mcp_iEDA.egg-info/
+tags
