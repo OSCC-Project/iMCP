@@ -96,7 +96,11 @@ The python need choose iMCP/.venv/bin/python as the python interpreter.
 
 
 ## Usage Example
-If you config mcp server as above, you can run mcp server by prompt in VSCode Copilot on Agent mode : "run iEDA example gcd". The mcp server will run iEDA example gcd and you can see the log output in the mcp server output.
+If you config mcp server as above, you can run mcp server by prompt in VSCode Copilot on Agent mode : "run iEDA example gcd". The mcp server will run iEDA example gcd and you can see the log output in the mcp server output window.
+
+![mcp output](./images/mcp_output.png "mcp output window")
+
+![vscode copilot prompt](./images/vscode-copilot.png "vscode copilot prompt")
 
 ## Owner
 iEDA Team
