@@ -39,9 +39,10 @@ python -m mcp_ieda
 
 ## Configuration
 ### Usage with VS Code
-you can add it to a file called `.vscode/mcp.json` in your workspace. The github Copilot extension will automatically detect and use this configuration.The iEDA Path need to be set in the environment variable.
+you can add it to a file called `.vscode/mcp.json` in your workspace. The github Copilot extension will automatically detect and use this configuration.The iEDA Path need to be set in the environment variable according to your locol iEDA path.
 
 - Using pip installation
+The python need choose iMCP/.venv/bin/python as the python interpreter.
 
 ```json
 {
