@@ -6,8 +6,8 @@ The iMCP is a mcp server for iEDA.You can use it to communicate with iEDA Tools 
 
 ## Features
 - Support run iEDA with script
-- Support run iEDA example default is gcd
-- Support VSCode Copilot connected or Qwen3 Agent sdk.
+- Support run iEDA example, default is gcd
+- Support VSCode Copilot or Qwen3 Agent sdk to connect
 
 ## Build
 
