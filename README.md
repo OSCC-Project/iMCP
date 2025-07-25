@@ -1,5 +1,5 @@
 ## iMCP
-The iMCP is a mcp server for iEDA.You can use it to communicate with iEDA Tools when using LLM Model such as Qwen3, DeepSeek etc.
+The iMCP is a mcp server for iEDA.You can use it to communicate with iEDA Tools when using LLM Model such as Qwen3、GPT、Claude etc.
 
 ## Supported Tools
 - Run opensource tool iEDA with script.
