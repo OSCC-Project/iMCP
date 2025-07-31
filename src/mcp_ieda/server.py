@@ -31,15 +31,23 @@ current_dir = os.path.split(os.path.abspath(__file__))[0]
 class iEDARun(BaseModel):
     script_path: str 
     
-class iEDARunExample(BaseModel):
-    example_name: str 
+class iEDARunDesign(BaseModel):
+    design_name: str 
+    
+class iEDAReadReport(BaseModel):
+    """
+    iEDA MCP read report
+    """
+    design_name: str
+    step: str
 
 class iEDAMcpTools(str, Enum):
     """
     iEDA MCP tools
     """
     iEDA_RUN = "iEDA_RUN"
-    iEDA_RUN_EXAMPLE = "iEDA_RUN_EXAMPLE"
+    iEDA_RUN_DESIGN = "iEDA_RUN_DESIGN"
+    iEDA_READ_REPORT = "iEDA_READ_REPORT"
     
 def run_ieda(iEDA: Path, script_path: str):
     """Run iEDA with the given script path."""
@@ -52,6 +60,24 @@ def run_ieda(iEDA: Path, script_path: str):
     process = subprocess.run(script, shell=True, check=True)
     if process.returncode != 0:
         raise RuntimeError(f"Subprocess failed with return code {process.returncode}")
+
+def read_report(iEDA: Path, design: str, step: str) -> str:
+    """Read the report file"""
+    report_dir = iEDA.parent.parent
+    report_path = f"{report_dir}/scripts/design/sky130_{design}/result/"
+    if step.lower() == "place":
+        report_path += "pl/report/summary_report.txt"
+    elif step.lower() == "cts":
+        report_path += "cts/cts.log"
+    elif step.lower() == "route":
+        report_path += "rt/rt.log"
+        
+    if not os.path.exists(report_path):
+        raise ValueError(f"Report file {report_path} does not exist")
+    with open(report_path, "r") as f:
+        report_content = f.read()
+        
+    return report_content
     
     
 def get_server_url() -> str:
@@ -75,7 +101,8 @@ def serve(iEDA: Path, transport="stdio"):
     async def list_tools() -> list[Tool]:
         return [
             Tool(name=iEDAMcpTools.iEDA_RUN, description="Run iEDA with script", inputSchema=iEDARun.schema()),
-            Tool(name=iEDAMcpTools.iEDA_RUN_EXAMPLE, description="Run iEDA example", inputSchema=iEDARunExample.schema())
+            Tool(name=iEDAMcpTools.iEDA_RUN_DESIGN, description="Run iEDA design", inputSchema=iEDARunDesign.schema()),
+            Tool(name=iEDAMcpTools.iEDA_READ_REPORT, description="Read iEDA report", inputSchema=iEDAReadReport.schema())
         ]
 
     @server.call_tool()
@@ -87,17 +114,25 @@ def serve(iEDA: Path, transport="stdio"):
             logger.info(f"Run iEDA with script: {script_path}")
             run_ieda(iEDA, script_path)
             return [TextContent(type="text", text=f"Run iEDA with script: {script_path} successfully")]
-        elif tool == iEDAMcpTools.iEDA_RUN_EXAMPLE:
-            example_name = arguments.get("example_name")
-            if not example_name:
-                raise ValueError("Missing 'example_name' in arguments")
-            logger.info(f"Run iEDA example: {example_name}")
-            example_script_path = f"{current_dir}/./example/{example_name}/run_iEDA.tcl"
+        elif tool == iEDAMcpTools.iEDA_RUN_DESIGN:
+            design_name = arguments.get("design_name")
+            if not design_name:
+                raise ValueError("Missing 'design_name' in arguments")
+            logger.info(f"Run iEDA design: {design_name}")
+            example_script_path = f"{current_dir}/./example/{design_name}/run_iEDA.tcl"
             if os.path.exists(example_script_path):
                 run_ieda(iEDA, example_script_path)
-                return [TextContent(type="text", text=f"Run iEDA example: {example_name} successfully")]
+                return [TextContent(type="text", text=f"Run iEDA example: {design_name} successfully")]
             else:
                 return [TextContent(type="text", text=f"Example: {example_script_path} not found")]
+        elif tool == "iEDA_READ_REPORT":
+            design_name = arguments.get("design_name")
+            step = arguments.get("step")
+            if not design_name or not step:
+                raise ValueError("Missing 'design' or 'step' in arguments")
+            logger.info(f"Read iEDA report for design: {design_name}, step: {step}")
+            report_content = read_report(iEDA, design_name, step)
+            return [TextContent(type="text", text=report_content)]
         else:
             raise ValueError(f"Unknown tool: {tool}")
 

@@ -1,5 +1,8 @@
 
 # (fixed) iEDA setting
+#set ::env(iEDA) /home/taosimin/mcp-publish/iMCP/iEDA/bin/iEDA
+#set ::env(WORKSPACE) /home/taosimin/mcp-publish/iMCP/iEDA/scripts/design/sky130_gcd
+
 set ::env(CONFIG_DIR) $::env(WORKSPACE)/iEDA_config
 set ::env(FOUNDRY_DIR) $::env(WORKSPACE)/../../foundry/sky130
 set ::env(RESULT_DIR) $::env(WORKSPACE)/result
@@ -24,18 +27,18 @@ set pattern {s/\( [^+ ]*\) + NET  +/\1 + NET\1 +/}
 exec sed -i $pattern $::env(RESULT_DIR)/iFP_result.def
 
 set TCL_SCRIPTS "iNO_script/run_iNO_fix_fanout.tcl \
-iPL_script/run_iPL.tcl \
-iCTS_script/run_iCTS.tcl \
-iCTS_script/run_iCTS_STA.tcl \
-iTO_script/run_iTO_drv.tcl \
-iTO_script/run_iTO_drv_STA.tcl \
-iTO_script/run_iTO_hold.tcl \
-iTO_script/run_iTO_hold_STA.tcl \
-iPL_script/run_iPL_legalization.tcl \
-iRT_script/run_iRT.tcl \
-iRT_script/run_iRT_DRC.tcl \
-iPL_script/run_iPL_filler.tcl \
-DB_script/run_def_to_gds_text.tcl"
+                iPL_script/run_iPL.tcl \
+                iCTS_script/run_iCTS.tcl \
+                iCTS_script/run_iCTS_STA.tcl \
+                iTO_script/run_iTO_drv.tcl \
+                iTO_script/run_iTO_drv_STA.tcl \
+                iTO_script/run_iTO_hold.tcl \
+                iTO_script/run_iTO_hold_STA.tcl \
+                iPL_script/run_iPL_legalization.tcl \
+                iRT_script/run_iRT.tcl \
+                iRT_script/run_iRT_DRC.tcl \
+                iPL_script/run_iPL_filler.tcl \
+                DB_script/run_def_to_gds_text.tcl"
 
 foreach SCRIPT $TCL_SCRIPTS {
     puts "execuate script $::env(TCL_SCRIPT_DIR)/${SCRIPT} start"

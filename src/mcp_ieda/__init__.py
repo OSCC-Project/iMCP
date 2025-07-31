@@ -5,7 +5,10 @@ import os
 from .server import serve
 
 from dotenv import load_dotenv
-load_dotenv()
+
+current_dir = os.path.split(os.path.abspath(__file__))[0]
+
+load_dotenv(current_dir + "/.env")
 
 def get_ieda_path() -> Path:
     ieda_path = os.getenv("iEDA")
